@@ -1,14 +1,13 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "shopsleuth",
+  "name": "ShopSleuth",
+  "description": "Client-side mod to assist with the Bed Wars Invisible Shop challenge.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/ColeFrench/ShopSleuth",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Synchronous"],
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
