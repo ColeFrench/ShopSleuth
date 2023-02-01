@@ -1,1 +1,2 @@
-Why am I diving back into an unsupported 7-year-old legacy version...
+# ShopSleuth
+A client-side mod to assist with the Bed Wars Invisible Shop challenge.
