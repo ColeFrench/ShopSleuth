@@ -25,6 +25,7 @@ version = "0.1.0"
 group= "cc.cfrench.shopsleuth" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "shopsleuth"
 
+compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
