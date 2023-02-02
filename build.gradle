@@ -2,6 +2,7 @@
 // For those who want the bleeding edge
 buildscript {
     repositories {
+        mavenLocal()
         jcenter()
         maven {
             name = "forge"
@@ -9,7 +10,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1.4'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
