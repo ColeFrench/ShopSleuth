@@ -31,6 +31,10 @@ class ChallengeStatusListener {
                     .append(EnumChatFormatting.BOLD)
                     .append("Invisible Shop"))) {
                 this.active = true;
+                event.message.appendText(String.valueOf(new StringBuilder()
+                        .append("\n                              ")
+                        .append(EnumChatFormatting.GRAY)
+                        .append("ShopSleuth Active")));
             }
         }
     }
