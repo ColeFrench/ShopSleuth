@@ -6,7 +6,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-class ChallengeStatusListener {
+public class ChallengeStatusListener {
     private boolean someChallengeActive = false;
     private boolean active = false;
 
@@ -39,7 +39,10 @@ class ChallengeStatusListener {
         }
     }
 
-    protected boolean isActive() {
+    /**
+     * @return whether we are in a game with the Invisible Shop challenge enabled
+     */
+    public boolean isActive() {
         return this.active;
     }
 }
