@@ -11,13 +11,13 @@ import java.util.Map;
 import java.util.Optional;
 
 enum Resource {
-    IRON("Iron",                 true, false, false, true,  true),
-    GOLD("Gold",                 true, false, false, true,  true),
-    EMERALD("Emerald",           true, false, false, true,  true),
-    EMERALD_SPECIAL("Emerald",   true, false, true,  true,  true),
-    EMERALDS("Emeralds",         true, false, false, true,  true),
-    EMERALDS_SPECIAL("Emeralds", true, false, true,  true,  true),
-    DIAMONDS("Diamonds",         true, null,  false, false, true);
+    IRON("Iron",                 true, false, false, false, true),
+    GOLD("Gold",                 true, false, false, false, true),
+    EMERALD("Emerald",           true, false, false, false, true),
+    EMERALD_SPECIAL("Emerald",   true, false, true,  false, true),
+    EMERALDS("Emeralds",         true, false, false, false, true),
+    EMERALDS_SPECIAL("Emeralds", true, false, true,  false, true),
+    DIAMONDS("Diamonds",         true, null,  false, null,  true);
 
     private static class LazyHolder {
         private static final Map<NBTBase, Resource> RESOURCE_MAP = new HashMap<>();
@@ -29,7 +29,7 @@ enum Resource {
              final Boolean overrideMeta,
              final Boolean unbreakable,
              final boolean hideFlags,
-             final boolean extraAttributes,
+             final Boolean extraAttributes,
              final boolean attributeModifiers) {
         final NBTTagCompound newTag = new NBTTagCompound();
 
@@ -42,8 +42,12 @@ enum Resource {
         if (hideFlags) {
             newTag.setInteger("HideFlags", 254);
         }
-        if (extraAttributes) {
-            newTag.setTag("ExtraAttributes", new NBTTagCompound());
+        if (extraAttributes != null) {
+            final NBTTagCompound extraAttributesTag = new NBTTagCompound();
+            newTag.setTag("ExtraAttributes", extraAttributesTag);
+            if (extraAttributes) {
+                extraAttributesTag.setBoolean("TOWER_ITEM", true);
+            }
         }
         if (attributeModifiers) {
             newTag.setTag("AttributeModifiers", new NBTTagList());
