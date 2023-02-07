@@ -1,9 +1,14 @@
 package cc.cfrench.shopsleuth.shop;
 
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 enum Resource {
     IRON("Iron",                 true, false, false, true,  true),
@@ -14,7 +19,11 @@ enum Resource {
     EMERALDS_SPECIAL("Emeralds", true, false, true,  true,  true),
     DIAMONDS("Diamonds",         true, null,  false, false, true);
 
-    private final NBTTagCompound tag = new NBTTagCompound();
+    private static class LazyHolder {
+        private static final Map<NBTBase, Resource> RESOURCE_MAP = new HashMap<>();
+    }
+
+    private final NBTBase tag;
 
     Resource(final String name,
              final Boolean overrideMeta,
@@ -22,24 +31,26 @@ enum Resource {
              final boolean hideFlags,
              final boolean extraAttributes,
              final boolean attributeModifiers) {
+        final NBTTagCompound newTag = new NBTTagCompound();
+
         if (overrideMeta != null) {
-            this.tag.setBoolean("overrideMeta", overrideMeta);
+            newTag.setBoolean("overrideMeta", overrideMeta);
         }
         if (unbreakable != null) {
-            this.tag.setBoolean("Unbreakable", unbreakable);
+            newTag.setBoolean("Unbreakable", unbreakable);
         }
         if (hideFlags) {
-            this.tag.setInteger("HideFlags", 254);
+            newTag.setInteger("HideFlags", 254);
         }
         if (extraAttributes) {
-            this.tag.setTag("ExtraAttributes", new NBTTagCompound());
+            newTag.setTag("ExtraAttributes", new NBTTagCompound());
         }
         if (attributeModifiers) {
-            this.tag.setTag("AttributeModifiers", new NBTTagList());
+            newTag.setTag("AttributeModifiers", new NBTTagList());
         }
 
         final NBTTagCompound displayTag = new NBTTagCompound();
-        this.tag.setTag("display", displayTag);
+        newTag.setTag("display", displayTag);
         final NBTTagList loreTag = new NBTTagList();
         displayTag.setTag("Lore", loreTag);
 
@@ -57,9 +68,12 @@ enum Resource {
         }
 
         displayTag.setString("Name", EnumChatFormatting.RED + "Unknown");
+
+        this.tag = newTag;
+        LazyHolder.RESOURCE_MAP.put(this.tag, this);
     }
 
-    public NBTTagCompound getTag() {
-        return this.tag;
+    public static Optional<Resource> fromTag(final NBTBase tag) {
+        return Optional.ofNullable(LazyHolder.RESOURCE_MAP.get(tag));
     }
 }
