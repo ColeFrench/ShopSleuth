@@ -9,15 +9,41 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 enum Resource {
-    IRON("Iron",                 true, false, false, false, true),
-    GOLD("Gold",                 true, false, false, false, true),
-    EMERALD("Emerald",           true, false, false, false, true),
-    EMERALD_SPECIAL("Emerald",   true, false, true,  false, true),
-    EMERALDS("Emeralds",         true, false, false, false, true),
-    EMERALDS_SPECIAL("Emeralds", true, false, true,  false, true),
-    DIAMONDS("Diamonds",         true, null,  false, null,  true);
+    IRON("Iron",                 true, false, false, false, true, Resource::getDefaultLore),
+    IRON_SPECIAL("Iron",         true, false, false, false, true, name -> {
+        final NBTTagList loreTag = new NBTTagList();
+        loreTag.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "Cost: " + EnumChatFormatting.ITALIC + "??"));
+        loreTag.appendTag(new NBTTagString());
+        loreTag.appendTag(new NBTTagString(EnumChatFormatting.RED + "You don't have enough " + name + "!"));
+        return loreTag;
+    }),
+    IRON_TOWER("Iron",           true, false, false, true,  true, Resource::getDefaultLore),
+    GOLD("Gold",                 true, false, false, false, true, Resource::getDefaultLore),
+    EMERALD("Emerald",           true, false, false, false, true, Resource::getDefaultLore),
+    EMERALD_SPECIAL("Emerald",   true, false, true,  false, true, Resource::getDefaultLore),
+    EMERALDS("Emeralds",         true, false, false, false, true, Resource::getDefaultLore),
+    EMERALDS_SPECIAL("Emeralds", true, false, true,  false, true, Resource::getDefaultLore),
+    DIAMONDS("Diamonds",         true, null,  false, null,  true, name -> {
+        final NBTTagList loreTag = new NBTTagList();
+        loreTag.appendTag(new NBTTagString(String.valueOf(EnumChatFormatting.GRAY)));
+        loreTag.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "" + EnumChatFormatting.GRAY + "Cost: " + EnumChatFormatting.ITALIC + "??"));
+        loreTag.appendTag(new NBTTagString());
+        loreTag.appendTag(new NBTTagString(EnumChatFormatting.RED + "You don't have enough " + name + "!"));
+        return loreTag;
+    });
+
+    private static NBTBase getDefaultLore(final String resourceName) {
+        final NBTTagList loreTag = new NBTTagList();
+        loreTag.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "Cost: " + EnumChatFormatting.ITALIC + "??"));
+        loreTag.appendTag(new NBTTagString());
+        loreTag.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + "????"));
+        loreTag.appendTag(new NBTTagString());
+        loreTag.appendTag(new NBTTagString(EnumChatFormatting.RED + "You don't have enough " + resourceName + "!"));
+        return loreTag;
+    }
 
     private static class LazyHolder {
         private static final Map<NBTBase, Resource> RESOURCE_MAP = new HashMap<>();
@@ -30,7 +56,8 @@ enum Resource {
              final Boolean unbreakable,
              final boolean hideFlags,
              final Boolean extraAttributes,
-             final boolean attributeModifiers) {
+             final boolean attributeModifiers,
+             final Function<String, NBTBase> loreMaker) {
         final NBTTagCompound newTag = new NBTTagCompound();
 
         if (overrideMeta != null) {
@@ -55,22 +82,7 @@ enum Resource {
 
         final NBTTagCompound displayTag = new NBTTagCompound();
         newTag.setTag("display", displayTag);
-        final NBTTagList loreTag = new NBTTagList();
-        displayTag.setTag("Lore", loreTag);
-
-        if (!"Diamonds".equals(name)) {
-            loreTag.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "Cost: " + EnumChatFormatting.ITALIC + "??"));
-            loreTag.appendTag(new NBTTagString());
-            loreTag.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + "????"));
-            loreTag.appendTag(new NBTTagString());
-            loreTag.appendTag(new NBTTagString(EnumChatFormatting.RED + "You don't have enough " + name + "!"));
-        } else {
-            loreTag.appendTag(new NBTTagString(String.valueOf(EnumChatFormatting.GRAY)));
-            loreTag.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "" + EnumChatFormatting.GRAY + "Cost: " + EnumChatFormatting.ITALIC + "??"));
-            loreTag.appendTag(new NBTTagString());
-            loreTag.appendTag(new NBTTagString(EnumChatFormatting.RED + "You don't have enough " + name + "!"));
-        }
-
+        displayTag.setTag("Lore", loreMaker.apply(name));
         displayTag.setString("Name", EnumChatFormatting.RED + "Unknown");
 
         this.tag = newTag;
