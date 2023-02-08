@@ -56,14 +56,16 @@ public class InventoryListener {
         if (event.player instanceof EntityPlayerSP
                 && this.status.isChallengeActive()
                 && event.phase == TickEvent.Phase.END) {
-            final Optional<ItemStack> maybeMousedItemStack = Optional.ofNullable(Minecraft.getMinecraft().currentScreen)
+            final Optional<ItemStack> maybeNewMousedItemStack = Optional.ofNullable(Minecraft.getMinecraft().currentScreen)
                 .filter(GuiChest.class::isInstance)
                 .map(GuiChest.class::cast)
                 .map(GuiChest::getSlotUnderMouse)
-                .map(Slot::getStack);
-            if (maybeMousedItemStack.isPresent()
-                    && !maybeMousedItemStack.equals(this.inventory.getLastMousedItemStack())) {
-                this.inventory.setLastMousedItemStack(maybeMousedItemStack.get());
+                .map(Slot::getStack)
+                .filter(itemStack -> !this.inventory.getLastMousedItemStack()
+                    .map(itemStack::getIsItemStackEqual)
+                    .orElse(false));
+            if (maybeNewMousedItemStack.isPresent()) {
+                this.inventory.setLastMousedItemStack(maybeNewMousedItemStack.get());
             }
         }
     }
