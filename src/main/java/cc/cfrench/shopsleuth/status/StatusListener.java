@@ -15,13 +15,13 @@ public class StatusListener {
     }
 
     @SubscribeEvent
-    public void onWorldLoad(final WorldEvent.Load event) {
+    public void onWorldLoad_SetChallengesInactive(final WorldEvent.Load event) {
         this.status.setChallengeActive(false);
         this.someChallengeActive = false;
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onChatReceived(final ClientChatReceivedEvent event) {
+    public void onChatReceived_UpdateChallengeStatus(final ClientChatReceivedEvent event) {
         if (!this.someChallengeActive) {
             if (event.message.getFormattedText().contains(new StringBuilder()
                     .append(EnumChatFormatting.RED)

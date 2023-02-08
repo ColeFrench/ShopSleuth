@@ -21,7 +21,7 @@ public class InventoryListener {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(final TickEvent.PlayerTickEvent event) {
+    public void onPlayerTick_UpdateLastMousedItemStack(final TickEvent.PlayerTickEvent event) {
         if (event.player instanceof EntityPlayerSP
                 && this.status.isChallengeActive()
                 && event.phase == TickEvent.Phase.END) {
