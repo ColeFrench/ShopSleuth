@@ -1,6 +1,6 @@
 package cc.cfrench.shopsleuth;
 
-import cc.cfrench.shopsleuth.status.ChallengeStatusListener;
+import cc.cfrench.shopsleuth.status.StatusListener;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -13,6 +13,6 @@ public class ShopSleuth {
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new ChallengeStatusListener());
+        MinecraftForge.EVENT_BUS.register(new StatusListener());
     }
 }

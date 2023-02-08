@@ -6,7 +6,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class ChallengeStatusListener {
+public class StatusListener {
     private boolean someChallengeActive = false;
     private boolean active = false;
 
