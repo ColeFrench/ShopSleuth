@@ -7,12 +7,16 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class StatusListener {
+    private final Status status;
     private boolean someChallengeActive = false;
-    private boolean active = false;
+
+    public StatusListener(final Status status) {
+        this.status = status;
+    }
 
     @SubscribeEvent
     public void onWorldLoad(final WorldEvent.Load event) {
-        this.active = false;
+        this.status.setChallengeActive(false);
         this.someChallengeActive = false;
     }
 
@@ -29,18 +33,11 @@ public class StatusListener {
                 .append(EnumChatFormatting.GOLD)
                 .append(EnumChatFormatting.BOLD)
                 .append("Invisible Shop"))) {
-            this.active = true;
+            this.status.setChallengeActive(true);
             event.message.appendText(String.valueOf(new StringBuilder()
                     .append("\n                              ")
                     .append(EnumChatFormatting.GRAY)
                     .append("ShopSleuth Active")));
         }
-    }
-
-    /**
-     * @return whether we are in a game with the Invisible Shop challenge enabled
-     */
-    public boolean isActive() {
-        return this.active;
     }
 }
