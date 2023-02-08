@@ -25,17 +25,15 @@ public class StatusListener {
                     .append("CHALLENGE ACTIVE!"))) {
                 this.someChallengeActive = true;
             }
-        } else {
-            if (event.message.getFormattedText().contains(new StringBuilder()
-                    .append(EnumChatFormatting.GOLD)
-                    .append(EnumChatFormatting.BOLD)
-                    .append("Invisible Shop"))) {
-                this.active = true;
-                event.message.appendText(String.valueOf(new StringBuilder()
-                        .append("\n                              ")
-                        .append(EnumChatFormatting.GRAY)
-                        .append("ShopSleuth Active")));
-            }
+        } else if (event.message.getFormattedText().contains(new StringBuilder()
+                .append(EnumChatFormatting.GOLD)
+                .append(EnumChatFormatting.BOLD)
+                .append("Invisible Shop"))) {
+            this.active = true;
+            event.message.appendText(String.valueOf(new StringBuilder()
+                    .append("\n                              ")
+                    .append(EnumChatFormatting.GRAY)
+                    .append("ShopSleuth Active")));
         }
     }
 
