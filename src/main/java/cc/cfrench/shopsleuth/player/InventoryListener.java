@@ -26,10 +26,10 @@ public class InventoryListener {
                 && this.status.isChallengeActive()
                 && event.phase == TickEvent.Phase.END) {
             final Optional<ItemStack> maybeMousedItemStack = Optional.ofNullable(Minecraft.getMinecraft().currentScreen)
-                    .filter(GuiChest.class::isInstance)
-                    .map(GuiChest.class::cast)
-                    .map(GuiChest::getSlotUnderMouse)
-                    .map(Slot::getStack);
+                .filter(GuiChest.class::isInstance)
+                .map(GuiChest.class::cast)
+                .map(GuiChest::getSlotUnderMouse)
+                .map(Slot::getStack);
             if (maybeMousedItemStack.isPresent()
                     && !maybeMousedItemStack.equals(this.inventory.getLastMousedItemStack())) {
                 this.inventory.setLastMousedItemStack(maybeMousedItemStack.get());

@@ -35,9 +35,9 @@ public class StatusListener {
                 .append("Invisible Shop"))) {
             this.status.setChallengeActive(true);
             event.message.appendText(String.valueOf(new StringBuilder()
-                    .append("\n                              ")
-                    .append(EnumChatFormatting.GRAY)
-                    .append("ShopSleuth Active")));
+                .append("\n                              ")
+                .append(EnumChatFormatting.GRAY)
+                .append("ShopSleuth Active")));
         }
     }
 }
