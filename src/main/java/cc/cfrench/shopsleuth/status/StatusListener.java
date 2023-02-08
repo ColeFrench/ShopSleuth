@@ -18,7 +18,7 @@ public class StatusListener {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onChatReceived(final ClientChatReceivedEvent event) {
-        if (!someChallengeActive) {
+        if (!this.someChallengeActive) {
             if (event.message.getFormattedText().contains(new StringBuilder()
                     .append(EnumChatFormatting.RED)
                     .append(EnumChatFormatting.BOLD)
